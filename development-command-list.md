@@ -2,7 +2,7 @@
 
 ## Magento command
 
-####### How to install Magento
+###### How to install Magento
 
 ```
 php bin/magento setup:install --base-url=http://127.0.0.1:8082 \
@@ -47,13 +47,22 @@ Reset two factor auth for admin user
 ```
 php bin/magento msp:security:tfa:reset admin google
 ```
+
+Disable admin captcha
+```
+php bin/magento config:set admin/captcha/enable 0
+```
+
 Add sample data
 
 ```
 php bin/magento sampledata:deploy
 ```
 
+Deployment command 
 ```
+php bin/magento maintenance:enable
+
 php bin/magento setup:upgrade
 
 php bin/magento setup:di:compile
@@ -61,6 +70,12 @@ php bin/magento setup:di:compile
 php bin/magento setup:di:compile -vvv
 
 php bin/magento setup:static-content:deploy -f
+
+php bin/magento maintenance:disable
+```
+
+```
+php bin/magento maintenance:enable && php bin/magento setup:upgrade && php bin/magento setup:di:compile && php bin/magento setup:static-content:deploy -f en_US en_GB && php bin/magento maintenance:disable
 ```
 
 Deploy specific theme content
@@ -76,9 +91,6 @@ php bin/magento indexer:status
 php bin/magento indexer:reindex
 
 php bin/magento indexer:reindex algolia_queue_runner
-```
-```
-php bin/magento maintenance:enable && php bin/magento setup:upgrade && php bin/magento setup:di:compile && php bin/magento setup:static-content:deploy -f en_US en_IE && php bin/magento maintenance:disable
 ```
 
 Check configuration
@@ -219,12 +231,16 @@ git log --follow -- filename
 
 ## Linux command
 
-1. Finds the files and directories that have been modified exactly n days ago.
+Finds the files and directories that have been modified exactly n days ago.
 
 ```
 find app/code -mtime -1
 ```
+Find files large then 100MB
 
+```
+find -size +100M 
+```
 
 Change folder permission
 ```
