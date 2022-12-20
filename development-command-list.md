@@ -159,6 +159,18 @@ Disable MSI 2.4
 php bin/magento module:disable -f Magento_Inventory Magento_InventoryAdminUi Magento_InventoryApi Magento_InventoryBundleProduct Magento_InventoryBundleProductAdminUi Magento_InventoryCatalog Magento_InventorySales Magento_InventoryCatalogAdminUi Magento_InventoryCatalogApi Magento_InventoryCatalogSearch Magento_InventoryConfigurableProduct Magento_InventoryConfigurableProductAdminUi Magento_InventoryConfigurableProductIndexer Magento_InventoryConfiguration Magento_InventoryConfigurationApi Magento_InventoryGroupedProduct Magento_InventoryGroupedProductAdminUi Magento_InventoryGroupedProductIndexer Magento_InventoryImportExport Magento_InventoryIndexer Magento_InventoryLowQuantityNotification Magento_InventoryLowQuantityNotificationAdminUi Magento_InventoryLowQuantityNotificationApi Magento_InventoryMultiDimensionalIndexerApi Magento_InventoryProductAlert Magento_InventoryReservations Magento_InventoryReservationsApi Magento_InventoryCache Magento_InventorySalesAdminUi Magento_InventorySalesApi Magento_InventorySalesFrontendUi Magento_InventoryShipping Magento_InventorySourceDeductionApi Magento_InventorySourceSelection Magento_InventorySourceSelectionApi Magento_InventoryShippingAdminUi Magento_InventoryDistanceBasedSourceSelectionAdminUi Magento_InventoryDistanceBasedSourceSelectionApi Magento_InventoryElasticsearch Magento_InventoryExportStockApi Magento_InventoryReservationCli Magento_InventoryExportStock Magento_CatalogInventoryGraphQl Magento_InventorySetupFixtureGenerator Magento_InventoryAdvancedCheckout Magento_InventoryDistanceBasedSourceSelection Magento_InventoryRequisitionList Magento_InventoryGraphQl Magento_InventoryBundleImportExport Magento_InventoryBundleProductIndexer Magento_InventoryInStorePickupApi Magento_InventoryInStorePickupAdminUi Magento_InventoryInStorePickup Magento_InventoryInStorePickupGraphQl Magento_InventoryInStorePickupShippingApi Magento_InventoryInStorePickupQuoteGraphQl Magento_InventoryInStorePickupSales Magento_InventoryInStorePickupSalesApi Magento_InventoryInStorePickupQuote Magento_InventoryInStorePickupShipping Magento_InventoryInStorePickupShippingAdminUi Magento_InventoryInStorePickupFrontend Magento_InventoryInStorePickupMultishipping Magento_InventoryInStorePickupSalesAdminUi Magento_InventoryInStorePickupWebapiExtension
 ```
 
+Apply patch in opensource and EE
+
+```
+composer require magento/quality-patches
+```
+```
+./vendor/bin/magento-patches status
+```
+```
+./vendor/bin/magento-patches apply ACSD-46815
+```
+
 ## Cloud patch command
 
 Check status in local
@@ -171,6 +183,10 @@ Apply patch in local
 php ./vendor/bin/ece-patches apply
 ```
 
+Verify wizard for the ideal state
+```
+ php ./vendor/bin/ece-tools wizard:ideal-state
+```
 
 
 ## Git commands
@@ -178,7 +194,7 @@ php ./vendor/bin/ece-patches apply
 Configure git user email and user name.
 
 ```
-git config user.email "ravichandra3197@gmail.com"
+git config user.email 'ravichandra3197@gmail.com'
 git config user.name 'Ravi Chandra'
 ```
 list git configuration
@@ -286,15 +302,21 @@ date +%Z
 
 ## mysql
 
-Mysql import sql.gz
-```
-zcat file.sql.gz | mysql -u username -p databasename 
-```
 
 Export database : 
 ```
 mysqldump -u username -p database_to_backup > backup_name.sql
 ```
+
+import sql.gz
+```
+zcat file.sql.gz | mysql -u username -p databasename 
+```
+
+```
+zcat var/db.sql.tgz | sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/' | mysql -h <db-host> -P <db-port> -p -u <db-user> <db-name>
+```
+
 
 Change admin password using query
 ```
@@ -310,3 +332,5 @@ Command to import the database dump file:
 ```
 zcat /tmp/database.sql.gz | sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/' | mysql -h <database_host> -u <username> -p <password> <database_name>
 ```
+
+
